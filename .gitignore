@@ -3,6 +3,7 @@ node_modules/
 
 # Build
 dist/
+cdn/
 
 # Testing
 coverage/
@@ -15,3 +16,6 @@ coverage/
 .DS_Store
 *.log
 .env*
+
+# Examples
+examples/vanilla/cdn/

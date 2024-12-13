@@ -1,5 +1,9 @@
 # @urlkit/search-params
 
+[![npm version](https://badge.fury.io/js/%40urlkit%2Fsearch-params.svg)](https://www.npmjs.com/package/@urlkit/search-params)
+[![jsDelivr hits](https://data.jsdelivr.com/v1/package/npm/@urlkit/search-params/badge)](https://www.jsdelivr.com/package/npm/@urlkit/search-params)
+[![unpkg](https://img.shields.io/badge/unpkg-available-success)](https://unpkg.com/@urlkit/search-params/)
+
 `@urlkit/search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
 
 # Getting Started

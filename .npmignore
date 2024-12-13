@@ -19,3 +19,12 @@ node_modules/
 # Misc
 .DS_Store
 *.log 
+*.svg
++ examples/
++ scripts/
++ docs/
++ .github/
++ *.config.ts
++ .env
++ .nvmrc
++ tsconfig.json
