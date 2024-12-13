@@ -89,12 +89,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/urlkit/search-params.git"
+    "url": "git+https://github.com/eddiedotdev/urlkit-search-params.git"
   },
   "bugs": {
-    "url": "https://github.com/urlkit/search-params/issues"
+    "url": "https://github.com/eddiedotdev/urlkit-search-params/issues"
   },
-  "homepage": "https://github.com/urlkit/search-params#readme",
+  "homepage": "https://github.com/eddiedotdev/urlkit-search-params#readme",
   "unpkg": "cdn/urlkit-search-params.iife.min.js",
   "jsdelivr": "cdn/urlkit-search-params.iife.min.js",
   "sideEffects": false,
