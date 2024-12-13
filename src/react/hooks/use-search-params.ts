@@ -46,8 +46,15 @@ import { createSearchParamsCore } from "../../lib/core/search-params";
  * ```
  */
 export function useSearchParams(): UseParamsReturn {
-  const { provider } = useSearchParamsConfig();
-  const adapter = provider === "next" ? useNextAdapter() : useReactAdapter();
+  const config = useSearchParamsConfig();
 
+  if (!config) {
+    throw new Error(
+      "useSearchParams must be used within a SearchParamsProvider"
+    );
+  }
+
+  const adapter =
+    config.provider === "next" ? useNextAdapter() : useReactAdapter();
   return createSearchParamsCore(adapter);
 }

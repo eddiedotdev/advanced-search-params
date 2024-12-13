@@ -12,5 +12,6 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   minify: true,
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "next", "react-router-dom"],
+  outDir: "dist",
 });

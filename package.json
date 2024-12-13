@@ -5,22 +5,23 @@
   "files": [
     "dist",
     "cdn",
+    "dist/types",
     "README.md",
     "LICENSE"
   ],
   "main": "dist/urlkit-search-params.cjs.js",
   "module": "dist/urlkit-search-params.es.js",
-  "types": "dist/urlkit-search-params.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/urlkit-search-params.d.ts",
-      "import": "./dist/urlkit-search-params.es.js",
-      "require": "./dist/urlkit-search-params.cjs.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./vanilla": {
-      "types": "./dist/vanilla/urlkit-search-params.d.ts",
-      "import": "./dist/vanilla/urlkit-search-params.es.js",
-      "require": "./dist/vanilla/urlkit-search-params.cjs.js"
+      "types": "./dist/vanilla/index.d.ts",
+      "import": "./dist/vanilla/index.js",
+      "require": "./dist/vanilla/index.cjs"
     }
   },
   "scripts": {

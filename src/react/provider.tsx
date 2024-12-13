@@ -1,19 +1,19 @@
-import { type ReactNode } from "react";
-import { SearchParamsRootProvider } from "./context";
+import { ReactNode } from "react";
+import { SearchParamsContext } from "./context";
 import type { RouterProvider } from "../lib/types";
 
 interface SearchParamsProviderProps {
-  children: ReactNode;
   provider: RouterProvider;
+  children: ReactNode;
 }
 
 export function SearchParamsProvider({
-  children,
   provider,
+  children,
 }: SearchParamsProviderProps) {
   return (
-    <SearchParamsRootProvider value={{ provider }}>
+    <SearchParamsContext.Provider value={{ provider }}>
       {children}
-    </SearchParamsRootProvider>
+    </SearchParamsContext.Provider>
   );
 }

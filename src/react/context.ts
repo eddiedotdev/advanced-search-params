@@ -1,9 +1,5 @@
 import { createContext, useContext } from "react";
-import type { RouterProvider } from "../lib/types";
-
-export interface SearchParamsConfig {
-  provider: RouterProvider;
-}
+import type { SearchParamsConfig } from "../lib/types";
 
 const SearchParamsContext = createContext<SearchParamsConfig | null>(null);
 
@@ -17,4 +13,4 @@ export function useSearchParamsConfig() {
   return context;
 }
 
-export const SearchParamsRootProvider = SearchParamsContext.Provider;
+export { SearchParamsContext };
