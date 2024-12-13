@@ -5,7 +5,7 @@ export default defineConfig({
     index: "src/index.ts",
     "vanilla/index": "src/vanilla/index.ts",
   },
-  format: ["cjs", "esm"],
+  format: ["esm", "cjs"],
   dts: {
     resolve: true,
     compilerOptions: {
@@ -20,4 +20,9 @@ export default defineConfig({
   minify: true,
   external: ["react", "react-dom", "next", "react-router-dom"],
   outDir: "dist",
+  target: "es2020",
+  platform: "browser",
+  esbuildOptions(options) {
+    options.conditions = ["import", "module"];
+  },
 });

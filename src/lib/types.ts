@@ -1,3 +1,5 @@
+import type { Parser } from "./parsers";
+
 export type RouterProvider = "next" | "react" | "react-router";
 
 export interface SearchParamsConfig {
@@ -8,6 +10,7 @@ export interface ParamOptions {
   serialize?: boolean;
   parse?: boolean;
   forceArray?: boolean;
+  parser?: Parser<unknown>;
 }
 
 export interface UseParamsReturn {

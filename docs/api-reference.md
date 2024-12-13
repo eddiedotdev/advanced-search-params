@@ -12,6 +12,122 @@ const params = useSearchParams();
 
 Returns an object containing all parameter management methods.
 
+## Parsers
+
+### Date and Time Parsers
+
+#### `parseAsTimestamp(options?: ParserOptions<number>)`
+
+Parses string values into Unix timestamps.
+
+```tsx
+const timestamp = get<number>("time", {
+  parser: parseAsTimestamp({ defaultValue: Date.now() }),
+});
+```
+
+#### `parseAsIsoDateTime(options?: ParserOptions<Date>)`
+
+Parses ISO 8601 date strings into Date objects.
+
+```tsx
+const date = get<Date>("startDate", {
+  parser: parseAsIsoDateTime({ defaultValue: new Date() }),
+});
+```
+
+### Enum and String Parsers
+
+#### `parseAsStringEnum<T extends string>(enumValues: readonly T[], options?: ParserOptions<T>)`
+
+Type-safe parsing for string enums with validation.
+
+```tsx
+const StatusEnum = ["active", "inactive"] as const;
+type Status = (typeof StatusEnum)[number];
+
+const status = get<Status>("status", {
+  parser: parseAsStringEnum(StatusEnum, { defaultValue: "active" }),
+});
+```
+
+### Number Parser
+
+#### `parseAsNumber(options?: ParserOptions<number> & { min?: number; max?: number })`
+
+Parses numbers with optional range validation.
+
+```tsx
+const count = get<number>("count", {
+  parser: parseAsNumber({
+    defaultValue: 0,
+    min: 0,
+    max: 100,
+  }),
+});
+```
+
+### Boolean Parser
+
+#### `parseAsBoolean(options?: ParserOptions<boolean>)`
+
+Parses boolean values from strings.
+
+```tsx
+const isActive = get<boolean>("active", {
+  parser: parseAsBoolean({ defaultValue: false }),
+});
+```
+
+### Parser Types
+
+#### `ParserOptions<T>`
+
+Configuration options for parsers.
+
+```typescript
+interface ParserOptions<T> {
+  defaultValue?: T;
+  validate?: (value: T) => boolean;
+}
+```
+
+#### `Parser<T>`
+
+Interface for creating custom parsers.
+
+```typescript
+interface Parser<T> {
+  parse: (value: string) => T | undefined;
+  serialize: (value: T) => string;
+  validate?: (value: T) => boolean;
+}
+```
+
+### Creating Custom Parsers
+
+You can create custom parsers by implementing the `Parser` interface:
+
+```typescript
+const customParser: Parser<MyType> = {
+  parse: (value: string) => {
+    // Custom parsing logic
+    return parsed;
+  },
+  serialize: (value: MyType) => {
+    // Custom serialization logic
+    return serialized;
+  },
+  validate: (value: MyType) => {
+    // Optional validation
+    return isValid;
+  },
+};
+
+// Usage
+const value = get<MyType>("key", { parser: customParser });
+```
+
 ## Provider
 
 ### `SearchParamsProvider`

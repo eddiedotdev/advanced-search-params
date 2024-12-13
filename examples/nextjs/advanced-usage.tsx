@@ -2,16 +2,14 @@
 
 "use client";
 
-import { useSearchParams } from "use-search-params";
+import { useSearchParams } from "@urlkit/search-params";
+import {
+  parseAsIsoDateTime,
+  parseAsStringEnum,
+} from "@urlkit/search-params/parsers";
 
-interface FilterState {
-  categories: string[];
-  dateRange: {
-    start: string;
-    end: string;
-  };
-  status: "active" | "inactive" | "all";
-}
+const StatusEnum = ["active", "inactive", "pending"] as const;
+type Status = (typeof StatusEnum)[number];
 
 export function AdvancedExample() {
   const { get, setMany, getWithDefault } = useSearchParams();
@@ -29,6 +27,20 @@ export function AdvancedExample() {
 
   // Get array values consistently
   const selectedIds = get<string[]>("selected", { forceArray: true }) ?? [];
+
+  // Parse date with ISO format
+  const startDate = get<Date>("startDate", {
+    parser: parseAsIsoDateTime({
+      defaultValue: new Date(),
+    }),
+  });
+
+  // Parse enum with validation
+  const status = get<Status>("status", {
+    parser: parseAsStringEnum(StatusEnum, {
+      defaultValue: "active",
+    }),
+  });
 
   const handleUpdateFilters = (updates: Partial<FilterState>) => {
     setMany(

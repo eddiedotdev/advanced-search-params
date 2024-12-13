@@ -1,6 +1,6 @@
 {
   "name": "@urlkit/search-params",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "type": "module",
   "files": [
     "dist",
@@ -12,13 +12,25 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./vanilla": {
       "types": "./dist/vanilla/index.d.ts",
-      "import": "./dist/vanilla/index.js",
-      "require": "./dist/vanilla/index.cjs"
+      "import": {
+        "types": "./dist/vanilla/index.d.ts",
+        "default": "./dist/vanilla/index.js"
+      },
+      "require": {
+        "types": "./dist/vanilla/index.d.ts",
+        "default": "./dist/vanilla/index.cjs"
+      }
     }
   },
   "scripts": {
