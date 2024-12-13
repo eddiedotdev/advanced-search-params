@@ -1,67 +1,184 @@
-# UseSearchParams Documentation
+# use-search-params
 
-Welcome to the Use Search Params documentation. This library provides a type-safe, framework-agnostic way to manage URL search parameters.
+# Getting Started
 
-## Table of Contents
+`use-search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
 
-- [Getting Started](./getting-started.md)
-- [Core Concepts](./core-concepts.md)
-- [Framework Integration](./framework-integration/README.md)
-  - [Next.js](./framework-integration/nextjs.md)
-  - [React Router](./framework-integration/react-router.md)
-  - [Vanilla JS](./framework-integration/vanilla.md)
-- [API Reference](./api/README.md)
-  - [Hooks](./api/hooks.md)
-  - [Components](./api/components.md)
-  - [Core API](./api/core.md)
-  - [Types](./api/types.md)
-- [Examples](./examples/README.md)
-- [Migration Guide](./migration-guide.md)
+## Installation
 
-## Browser Support
+<details>
+<summary>npm</summary>
 
-- Chrome 51+
-- Firefox 54+
-- Safari 11+
-- Edge 79+
+```bash
+npm install use-search-params
+```
 
-## Examples
+</details>
 
-Check out our examples to see UseSearchParams in action:
+<details>
+<summary>yarn</summary>
 
-### React Examples
+```bash
+yarn add use-search-params
+```
 
-- [Basic Usage](./examples/react/basic-usage.tsx) - Simple view mode toggler and tag selector
-- [Advanced Usage](./examples/react/advanced-usage.tsx) - Complex state management with filters and serialization
-- [Color Picker](./examples/react/basic-usage.tsx) - Interactive color and size selector demonstrating URL state
+</details>
 
-### Next.js Examples
+<details>
+<summary>pnpm</summary>
 
-- [Basic Filters](./examples/nextjs/basic-usage.tsx) - Server component integration with client-side filters
-- [Advanced Params](./examples/nextjs/params-usage.tsx) - Complex parameter management with Next.js App Router
-- [Advanced Filters](./examples/nextjs/advanced-usage.tsx) - Type-safe filter management with parsing
+```bash
+pnpm add use-search-params
+```
 
-### React Router Examples
+</details>
 
-- [Basic Usage](./examples/react-router/basic-usage.tsx) - Tag selector with React Router integration
-- [Advanced Usage](./examples/react-router/advanced-usage.tsx) - Searchable table with complex state management
+<details>
+<summary>bun</summary>
 
-### Vanilla JavaScript Examples
+```bash
+bun add use-search-params
+```
 
-- [Basic Usage](./examples/vanilla/basic-usage.js) - Simple tag selector without framework dependencies
-- [Tag Selector](./examples/vanilla/index.html) - Complete HTML example with CDN usage
+</details>
 
-Each example includes:
+### CDN Usage
 
-- Full source code with comments
-- TypeScript type definitions
-- Best practices for the specific framework
-- Proper error handling
-- URL state management patterns
+For vanilla JavaScript projects, you can include UseSearchParams directly via CDN:
+
+```html
+<!-- Using unpkg -->
+<script src="https://unpkg.com/use-search-params/cdn/use-search-params.iife.min.js"></script>
+
+<!-- Using jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/use-search-params/cdn/use-search-params.iife.min.js"></script>
+```
+
+## Framework Setup
+
+### React
+
+1. Wrap your app with the provider:
+
+```tsx
+import { SearchParamsProvider } from "use-search-params";
+
+function App() {
+  return (
+    <SearchParamsProvider provider="react">
+      <YourApp />
+    </SearchParamsProvider>
+  );
+}
+```
+
+2. Use the hook in your components:
+
+```tsx
+import { useSearchParams } from "use-search-params";
+
+function SearchableContent() {
+  const { get, set, getWithDefault } = useSearchParams();
+
+  // Basic string value
+  const view = get<string>("view") ?? "grid";
+
+  // Array with forced array return
+  const tags = get<string[]>("tags", { forceArray: true });
+
+  // Complex object with parsing
+  const filters = get<{ status: string }>("filters", { parse: true });
+
+  return (
+    <div>
+      <div>Current View: {view}</div>
+      {/* Rest of Component */}
+    </div>
+  );
+}
+```
+
+### Next.js
+
+1. Create a client-side component:
+
+```tsx
+"use client";
+
+import { useSearchParams } from "use-search-params";
+
+export function SearchFilters() {
+  const { get, set, getWithDefault } = useSearchParams();
+
+  return <div>{/* Rest of Component */}</div>;
+}
+```
+
+2. Use in your pages:
+
+```tsx
+import { SearchParamsProvider } from "use-search-params";
+import { SearchFilters } from "./search-filters";
+
+export default function Page() {
+  return (
+    <SearchParamsProvider provider="next">
+      <SearchFilters />
+    </SearchParamsProvider>
+  );
+}
+```
+
+### Vanilla JavaScript
+
+```javascript
+import { createSearchParams } from "use-search-params/vanilla";
+
+const params = createSearchParams();
+
+// Get values
+const view = params.get("view");
+
+// Set values
+params.set("view", "grid");
+
+// Handle arrays
+params.add("tags", ["react", "typescript"]);
+
+// Parse complex objects
+const filters = params.get("filters", { parse: true });
+```
+
+## TypeScript Support
+
+The library is written in TypeScript and includes built-in type definitions:
+
+```typescript
+interface Filters {
+  status: "active" | "inactive";
+  tags: string[];
+}
+
+const filters = get<Filters>("filters", { parse: true });
+```
+
+## Core Features
+
+- **Type-safe operations**: Full TypeScript support
+- **Multiple value handling**: Support for array values
+- **Complex object support**: Parse and serialize JSON objects
+- **Framework adapters**: Seamless integration with Next.js and React Router
+- **URL state management**: Preserve and update URL parameters
+
+## Next Steps
+
+- Check out the [Core Concepts](./docs/core-concepts.md) guide
+- See [Examples](./examples) for complete implementations
+- Read the [API Reference](./docs/api-reference.md) for detailed documentation
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](./docs/CONTRIBUTING.md) for details.
 
 ## License
 

@@ -1,129 +1,101 @@
-# Core Concepts
-
-## Parameter Operations
+# Core Methods
 
 ### Getting Values
 
 ```tsx
-// Basic get
+const { get, getWithDefault, matches } = useSearchParams();
+
+// Basic get - returns undefined if not found
 const value = get<string>("key");
 
-// With default
-const value = get<string>("key") ?? "default";
+// With default value
+const value = getWithDefault("key", "default-value");
 
 // Force array return
 const array = get<string[]>("key", { forceArray: true });
+// Always returns: [] | [value] | [value1, value2, ...]
 
 // Parse complex objects
-const obj = get<{ status: string }>("key", { parse: true });
+const filters = get<{ status: string }>("key", { parse: true });
 ```
 
 ### Setting Values
 
 ```tsx
-// Basic set
-set("key", "value");
+const { set, add, remove } = useSearchParams();
 
-// Set arrays
+// Basic set (replaces existing values)
+set("view", "grid");
+
+// Set multiple values
 set("tags", ["react", "typescript"]);
 
-// Set objects
+// Set with serialization
 set("filters", { status: "active" }, { serialize: true });
 ```
 
-## Type Safety
-
-The library is built with TypeScript and provides full type inference:
+### Adding Values
 
 ```tsx
-interface Filters {
-  status: "active" | "inactive";
-  tags: string[];
-}
+// Add single value (preserves existing values)
+add("tags", "nextjs");
 
-const filters = get<Filters>("filters", { parse: true });
+// Add multiple values
+add("categories", ["frontend", "backend"]);
+
+// Add with serialization
+add("configs", { theme: "dark" }, { serialize: true });
 ```
 
-## Array Handling
-
-Use `forceArray` when you need consistent array handling:
+### Removing Values
 
 ```tsx
-// Without forceArray
-const tags = get("tags");
-// Could be undefined, "tag1", or ["tag1", "tag2"]
+// Remove specific value
+remove("tags", "react");
 
-// With forceArray
-const tags = get("tags", { forceArray: true });
-// Always an array: [], ["tag1"], or ["tag1", "tag2"]
+// Remove multiple values
+remove("categories", ["frontend", "backend"]);
+
+// Clear all values for a key
+clear("tags");
+
+// Reset all parameters
+resetAllParams();
 ```
 
-## Framework Integration
-
-The library provides dedicated adapters for popular frameworks to enable seamless integration with their routing systems.
-
-### Next.js App Router
+### Updating Values
 
 ```tsx
-import { useNextSearchParams } from "@use-search-params/next";
-
-export default function Page() {
-  const { get, set } = useNextSearchParams();
-
-  // Use with Next.js App Router
-  const status = get<string>("status");
-
-  return <button onClick={() => set("status", "active")}>Set Status</button>;
-}
+// Update specific value
+update("tags", "react", "nextjs");
 ```
 
-### React Router
+### Checking Values
 
 ```tsx
-import { useReactRouterSearchParams } from "@use-search-params/react-router";
+// Check if value exists
+const hasTag = matches("tags", "react");
 
-function Component() {
-  const { get, set } = useReactRouterSearchParams();
+// Check with type parsing
+const isActive = matches("status", { state: "active" }, { parse: true });
 
-  // Use with React Router
-  const filters = get<string[]>("filters", { forceArray: true });
-
-  return (
-    <button onClick={() => set("filters", ["new", "active"])}>
-      Update Filters
-    </button>
-  );
-}
+// Check in array
+const hasTags = matches("tags", ["react", "typescript"]);
 ```
 
-### Remix
+### Batch Operations
 
 ```tsx
-import { useRemixSearchParams } from "@use-search-params/remix";
+// Get all current parameters
+const allParams = getAll();
 
-function Component() {
-  const { get, set } = useRemixSearchParams();
-
-  // Use with Remix
-  const page = get<number>("page", { parse: true }) ?? 1;
-
-  return <button onClick={() => set("page", page + 1)}>Next Page</button>;
-}
+// Set multiple parameters at once
+setMany(
+  {
+    view: "grid",
+    tags: ["react", "typescript"],
+    filters: { status: "active" },
+  },
+  { serialize: true }
+);
 ```
-
-### SolidJS
-
-```tsx
-import { useSolidSearchParams } from "@use-search-params/solid";
-
-function Component() {
-  const { get, set } = useSolidSearchParams();
-
-  // Use with SolidJS
-  const view = get<string>("view") ?? "grid";
-
-  return <button onClick={() => set("view", "list")}>Change View</button>;
-}
-```
-
-Each adapter provides the same consistent API while integrating with the framework's native routing system. This ensures you get the best of both worlds: a unified interface for handling search parameters and seamless integration with your chosen framework.
