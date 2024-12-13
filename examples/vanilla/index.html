@@ -20,6 +20,16 @@
   </head>
   <body>
     <div id="tag-selector"></div>
-    <script type="module" src="./basic-usage.js"></script>
+    <script src="./cdn/use-search-params.iife.min.js"></script>
+    <script>
+      // Initialize the search params
+      const params = UseSearchParams.createSearchParams();
+    </script>
+
+    <button onclick="params.set('tag', '1')">Tag 1</button>
+    <button onclick="params.set('tag', '2')">Tag 2</button>
+    <button onclick="params.clear('tag')">Clear</button>
+
+    <div id="current-tag"></div>
   </body>
 </html>

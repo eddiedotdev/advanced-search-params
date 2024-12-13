@@ -26,7 +26,7 @@ Context provider that configures the URL parameter adapter.
 
 **Props:**
 
-- `provider`: `"next" | "react"` - Specifies which router adapter to use
+- `provider`: `"next" | "react" | "react-router"` - Specifies which router adapter to use
 
 ## Core Methods
 
