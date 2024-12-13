@@ -1,25 +1,22 @@
 {
   "name": "@urlkit/search-params",
-  "version": "0.9.4",
-  "description": "Type-safe URL search parameter management for JavaScript applications",
+  "version": "0.9.5",
+  "type": "module",
   "files": [
     "dist",
-    "cdn",
-    "dist/types",
-    "README.md",
-    "LICENSE"
+    "cdn"
   ],
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./vanilla": {
-      "types": "./dist/vanilla/types.d.ts",
+      "types": "./dist/vanilla/index.d.ts",
       "import": "./dist/vanilla/index.js",
       "require": "./dist/vanilla/index.cjs"
     }
@@ -28,7 +25,7 @@
     "build:cdn": "vite build --config vite.vanilla.config.ts",
     "build:lib": "tsup",
     "build:all": "tsx scripts/build.ts",
-    "dev:vanilla": "tsx scripts/dev.ts",
+    "dev:vanilla": "npm link @urlkit/search-params && tsx scripts/dev.ts",
     "dev": "tsup --watch",
     "clean": "rimraf dist cdn",
     "lint": "eslint src --ext .ts,.tsx",
@@ -37,7 +34,8 @@
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit",
     "release": "npm run clean && npm run build:all && npm publish",
-    "prepublishOnly": "npm run clean && npm run build:all"
+    "prepublishOnly": "npm run clean && npm run build:all",
+    "predev": "npm run build:lib && npm link"
   },
   "dependencies": {
     "next": "^14.0.0",

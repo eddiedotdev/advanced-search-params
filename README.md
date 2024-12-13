@@ -65,7 +65,7 @@ For vanilla JavaScript projects, you can include UseSearchParams directly via CD
 1. Wrap your app with the provider:
 
 ```tsx
-import { SearchParamsProvider } from "use-search-params";
+import { SearchParamsProvider } from "@urlkit/search-params";
 
 function App() {
   return (
@@ -79,7 +79,7 @@ function App() {
 2. Use the hook in your components:
 
 ```tsx
-import { useSearchParams } from "use-search-params";
+import { useSearchParams } from "@urlkit/search-params";
 
 function SearchableContent() {
   const { get, set, getWithDefault } = useSearchParams();
@@ -109,7 +109,7 @@ function SearchableContent() {
 ```tsx
 "use client";
 
-import { useSearchParams } from "use-search-params";
+import { useSearchParams } from "@urlkit/search-params";
 
 export function SearchFilters() {
   const { get, set, getWithDefault } = useSearchParams();
@@ -121,7 +121,7 @@ export function SearchFilters() {
 2. Use in your pages:
 
 ```tsx
-import { SearchParamsProvider } from "use-search-params";
+import { SearchParamsProvider } from "@urlkit/search-params";
 import { SearchFilters } from "./search-filters";
 
 export default function Page() {
@@ -136,7 +136,7 @@ export default function Page() {
 ### Vanilla JavaScript
 
 ```javascript
-import { createSearchParams } from "use-search-params/vanilla";
+import { createSearchParams } from "@urlkit/search-params/vanilla";
 
 const params = createSearchParams();
 
@@ -166,6 +166,108 @@ interface Filters {
 const filters = get<Filters>("filters", { parse: true });
 ```
 
+# Core Methods
+
+### Getting Values
+
+```tsx
+const { get, getWithDefault, matches } = useSearchParams();
+
+// Basic get - returns undefined if not found
+const value = get<string>("key");
+
+// With default value
+const value = getWithDefault("key", "default-value");
+
+// Force array return
+const array = get<string[]>("key", { forceArray: true });
+// Always returns: [] | [value] | [value1, value2, ...]
+
+// Parse complex objects
+const filters = get<{ status: string }>("key", { parse: true });
+```
+
+### Setting Values
+
+```tsx
+const { set, add, remove } = useSearchParams();
+
+// Basic set (replaces existing values)
+set("view", "grid");
+
+// Set multiple values
+set("tags", ["react", "typescript"]);
+
+// Set with serialization
+set("filters", { status: "active" }, { serialize: true });
+```
+
+### Adding Values
+
+```tsx
+// Add single value (preserves existing values)
+add("tags", "nextjs");
+
+// Add multiple values
+add("categories", ["frontend", "backend"]);
+
+// Add with serialization
+add("configs", { theme: "dark" }, { serialize: true });
+```
+
+### Removing Values
+
+```tsx
+// Remove specific value
+remove("tags", "react");
+
+// Remove multiple values
+remove("categories", ["frontend", "backend"]);
+
+// Clear all values for a key
+clear("tags");
+
+// Reset all parameters
+resetAllParams();
+```
+
+### Updating Values
+
+```tsx
+// Update specific value
+update("tags", "react", "nextjs");
+```
+
+### Checking Values
+
+```tsx
+// Check if value exists
+const hasTag = matches("tags", "react");
+
+// Check with type parsing
+const isActive = matches("status", { state: "active" }, { parse: true });
+
+// Check in array
+const hasTags = matches("tags", ["react", "typescript"]);
+```
+
+### Batch Operations
+
+```tsx
+// Get all current parameters
+const allParams = getAll();
+
+// Set multiple parameters at once
+setMany(
+  {
+    view: "grid",
+    tags: ["react", "typescript"],
+    filters: { status: "active" },
+  },
+  { serialize: true }
+);
+```
+
 ## Core Features
 
 - **Type-safe operations**: Full TypeScript support
@@ -176,7 +278,6 @@ const filters = get<Filters>("filters", { parse: true });
 
 ## Next Steps
 
-- Check out the [Core Concepts](https://github.com/eddiedotdev/urlkit-search-params/blob/main/docs/core-concepts.md) guide
 - See [Examples](https://github.com/eddiedotdev/urlkit-search-params/tree/main/examples) for complete implementations
 - Read the [API Reference](https://github.com/eddiedotdev/urlkit-search-params/blob/main/docs/api-reference.md) for detailed documentation
 

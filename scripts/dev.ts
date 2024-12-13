@@ -1,6 +1,9 @@
 import { createServer } from "vite";
-import { resolve } from "path";
-import fs from "fs-extra";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 async function dev() {
   // Build CDN version first
