@@ -11,5 +11,12 @@ export default defineConfig({
     },
     outDir: "cdn",
     minify: true,
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Ignore "use client" directive warnings
+        if (warning.code === "MODULE_LEVEL_DIRECTIVE") return;
+        warn(warning);
+      },
+    },
   },
 });
