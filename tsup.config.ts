@@ -2,11 +2,17 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: {
-    "use-search-params": "src/index.ts",
-    "vanilla/use-search-params": "src/vanilla/index.ts",
+    index: "src/index.ts",
+    "vanilla/index": "src/vanilla/index.ts",
   },
   format: ["cjs", "esm"],
-  dts: true,
+  dts: {
+    resolve: true,
+    compilerOptions: {
+      declarationDir: "./dist",
+      declarationMap: true,
+    },
+  },
   splitting: false,
   sourcemap: true,
   clean: true,

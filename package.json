@@ -9,24 +9,24 @@
     "README.md",
     "LICENSE"
   ],
-  "main": "dist/urlkit-search-params.cjs.js",
-  "module": "dist/urlkit-search-params.es.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./vanilla": {
-      "types": "./dist/vanilla/index.d.ts",
+      "types": "./dist/vanilla/types.d.ts",
       "import": "./dist/vanilla/index.js",
       "require": "./dist/vanilla/index.cjs"
     }
   },
   "scripts": {
-    "build": "tsup",
     "build:cdn": "vite build --config vite.vanilla.config.ts",
+    "build:lib": "tsup",
     "build:all": "tsx scripts/build.ts",
     "dev:vanilla": "tsx scripts/dev.ts",
     "dev": "tsup --watch",
@@ -66,6 +66,7 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^2.1.5",
     "@vitest/ui": "^2.1.5",
     "eslint": "^8.0.0",
@@ -74,7 +75,8 @@
     "tsup": "^8.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
-    "vite": "^5.0.0",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0",
     "vitest": "^2.1.8"
   },
   "keywords": [
