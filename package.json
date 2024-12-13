@@ -1,0 +1,51 @@
+{
+  "name": "use-search-params",
+  "version": "0.1.0",
+  "main": "dist/use-search-params.cjs.js",
+  "module": "dist/use-search-params.es.js",
+  "types": "dist/use-search-params.d.ts",
+  "files": [
+    "dist/",
+    "cdn/"
+  ],
+  "dependencies": {
+    "next": "^14.0.0",
+    "path": "^0.12.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "url": "^0.11.4"
+  },
+  "peerDependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "react-router-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.16",
+    "@types/react-dom": "^18.0.0",
+    "@vitest/coverage-v8": "^2.1.5",
+    "@vitest/ui": "^2.1.5",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^2.1.8"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "build:vanilla": "vite build --config vite.vanilla.config.ts"
+  },
+  "unpkg": "cdn/use-search-params.iife.min.js",
+  "jsdelivr": "cdn/use-search-params.iife.min.js"
+}
