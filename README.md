@@ -1,8 +1,8 @@
 # use-search-params
 
-# Getting Started
-
 `use-search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
+
+# Getting Started
 
 ## Installation
 
