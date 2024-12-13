@@ -182,7 +182,7 @@ const filters = get<Filters>("filters", { parse: true });
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](./docs/CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/eddiedotdev/urlkit-search-params/blob/main/docs/CONTRIBUTING.md) for details.
 
 ## License
 
