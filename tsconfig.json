@@ -17,6 +17,8 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
+    "declarationMap": true,
+    "sourceMap": true,
 
     /* Linting */
     "strict": true,
@@ -24,5 +26,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "vite.vanilla.config.ts"]
 }

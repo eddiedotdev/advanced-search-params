@@ -1,13 +1,40 @@
 {
   "name": "use-search-params",
   "version": "0.1.0",
+  "description": "Type-safe URL search parameter management for JavaScript applications",
+  "files": [
+    "dist",
+    "cdn",
+    "README.md"
+  ],
   "main": "dist/use-search-params.cjs.js",
   "module": "dist/use-search-params.es.js",
   "types": "dist/use-search-params.d.ts",
-  "files": [
-    "dist/",
-    "cdn/"
-  ],
+  "exports": {
+    ".": {
+      "types": "./dist/use-search-params.d.ts",
+      "import": "./dist/use-search-params.es.js",
+      "require": "./dist/use-search-params.cjs.js"
+    },
+    "./vanilla": {
+      "types": "./dist/vanilla/use-search-params.d.ts",
+      "import": "./dist/vanilla/use-search-params.es.js",
+      "require": "./dist/vanilla/use-search-params.cjs.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:cdn": "vite build --config vite.vanilla.config.ts",
+    "build:all": "tsx scripts/build.ts",
+    "dev:vanilla": "tsx scripts/dev.ts",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist cdn",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "prepublishOnly": "npm run clean && npm run build:all"
+  },
   "dependencies": {
     "next": "^14.0.0",
     "path": "^0.12.7",
@@ -31,21 +58,41 @@
     }
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.0.0",
     "@vitest/coverage-v8": "^2.1.5",
     "@vitest/ui": "^2.1.5",
+    "eslint": "^8.0.0",
+    "fs-extra": "^11.2.0",
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0",
     "vitest": "^2.1.8"
   },
-  "scripts": {
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui",
-    "build:vanilla": "vite build --config vite.vanilla.config.ts"
+  "keywords": [
+    "url",
+    "search-params",
+    "query-params",
+    "react",
+    "nextjs",
+    "typescript",
+    "vanilla-js"
+  ],
+  "author": "eddiedotdev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddiedotdev/use-search-params.git"
   },
+  "bugs": {
+    "url": "https://github.com/eddiedotdev/use-search-params/issues"
+  },
+  "homepage": "https://github.com/eddiedotdev/use-search-params#readme",
   "unpkg": "cdn/use-search-params.iife.min.js",
-  "jsdelivr": "cdn/use-search-params.iife.min.js"
+  "jsdelivr": "cdn/use-search-params.iife.min.js",
+  "sideEffects": false
 }

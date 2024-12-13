@@ -1,16 +1,17 @@
 import { defineConfig } from "vite";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { resolve } from "path";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, "src/vanilla/index.ts"),
+      entry: resolve(__dirname, "src/index.ts"),
       name: "UseSearchParams",
-      formats: ["es", "umd", "iife"],
+      formats: ["es", "cjs"],
       fileName: (format) => `use-search-params.${format}.js`,
+    },
+    outDir: "dist",
+    rollupOptions: {
+      external: ["react", "react-dom", "next", "react-router-dom"],
     },
   },
 });
