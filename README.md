@@ -1,6 +1,6 @@
-# use-search-params
+# @urlkit/search-params
 
-`use-search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
+`@urlkit/search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
 
 # Getting Started
 
@@ -10,7 +10,7 @@
 <summary>npm</summary>
 
 ```bash
-npm install use-search-params
+npm install @urlkit/search-params
 ```
 
 </details>
@@ -19,7 +19,7 @@ npm install use-search-params
 <summary>yarn</summary>
 
 ```bash
-yarn add use-search-params
+yarn add @urlkit/search-params
 ```
 
 </details>
@@ -28,7 +28,7 @@ yarn add use-search-params
 <summary>pnpm</summary>
 
 ```bash
-pnpm add use-search-params
+pnpm add @urlkit/search-params
 ```
 
 </details>
@@ -37,7 +37,7 @@ pnpm add use-search-params
 <summary>bun</summary>
 
 ```bash
-bun add use-search-params
+bun add @urlkit/search-params
 ```
 
 </details>
@@ -48,7 +48,7 @@ For vanilla JavaScript projects, you can include UseSearchParams directly via CD
 
 ```html
 <!-- Using unpkg -->
-<script src="https://unpkg.com/use-search-params/cdn/use-search-params.iife.min.js"></script>
+<script src="https://unpkg.com/@urlkit/search-params/cdn/use-search-params.iife.min.js"></script>
 
 <!-- Using jsDelivr -->
 <script src="https://cdn.jsdelivr.net/npm/use-search-params/cdn/use-search-params.iife.min.js"></script>

@@ -1,20 +1,21 @@
 {
-  "name": "use-search-params",
+  "name": "@urlkit/search-params",
   "version": "0.9.0",
   "description": "Type-safe URL search parameter management for JavaScript applications",
   "files": [
     "dist",
     "cdn",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
-  "main": "dist/use-search-params.cjs.js",
-  "module": "dist/use-search-params.es.js",
-  "types": "dist/use-search-params.d.ts",
+  "main": "dist/urlkit-search-params.cjs.js",
+  "module": "dist/urlkit-search-params.es.js",
+  "types": "dist/urlkit-search-params.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/use-search-params.d.ts",
-      "import": "./dist/use-search-params.es.js",
-      "require": "./dist/use-search-params.cjs.js"
+      "types": "./dist/urlkit-search-params.d.ts",
+      "import": "./dist/urlkit-search-params.es.js",
+      "require": "./dist/urlkit-search-params.cjs.js"
     },
     "./vanilla": {
       "types": "./dist/vanilla/use-search-params.d.ts",
@@ -94,7 +95,10 @@
     "url": "https://github.com/eddiedotdev/use-search-params/issues"
   },
   "homepage": "https://github.com/eddiedotdev/use-search-params#readme",
-  "unpkg": "cdn/use-search-params.iife.min.js",
-  "jsdelivr": "cdn/use-search-params.iife.min.js",
-  "sideEffects": false
+  "unpkg": "cdn/urlkit-search-params.iife.min.js",
+  "jsdelivr": "cdn/urlkit-search-params.iife.min.js",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  }
 }

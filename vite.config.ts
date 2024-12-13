@@ -6,8 +6,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "UseSearchParams",
+      fileName: (format) => `urlkit-search-params.${format}.js`,
       formats: ["es", "cjs"],
-      fileName: (format) => `use-search-params.${format}.js`,
     },
     outDir: "dist",
     rollupOptions: {
