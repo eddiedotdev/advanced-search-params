@@ -18,9 +18,9 @@
       "require": "./dist/urlkit-search-params.cjs.js"
     },
     "./vanilla": {
-      "types": "./dist/vanilla/use-search-params.d.ts",
-      "import": "./dist/vanilla/use-search-params.es.js",
-      "require": "./dist/vanilla/use-search-params.cjs.js"
+      "types": "./dist/vanilla/urlkit-search-params.d.ts",
+      "import": "./dist/vanilla/urlkit-search-params.es.js",
+      "require": "./dist/vanilla/urlkit-search-params.cjs.js"
     }
   },
   "scripts": {
@@ -89,12 +89,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eddiedotdev/use-search-params.git"
+    "url": "git+https://github.com/eddiedotdev/urlkit-search-params.git"
   },
   "bugs": {
-    "url": "https://github.com/eddiedotdev/use-search-params/issues"
+    "url": "https://github.com/eddiedotdev/urlkit-search-params/issues"
   },
-  "homepage": "https://github.com/eddiedotdev/use-search-params#readme",
+  "homepage": "https://github.com/eddiedotdev/urlkit-search-params#readme",
   "unpkg": "cdn/urlkit-search-params.iife.min.js",
   "jsdelivr": "cdn/urlkit-search-params.iife.min.js",
   "sideEffects": false,
