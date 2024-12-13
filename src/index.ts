@@ -10,9 +10,6 @@ export type {
 export { useSearchParams } from "./react/hooks/use-search-params";
 export { SearchParamsProvider } from "./react/provider";
 
-// Vanilla JS functionality
-export { createSearchParams } from "./vanilla";
-
 // Adapters
 export { useNextAdapter } from "./lib/adapters/nextjs";
 export { useReactAdapter } from "./lib/adapters/react";
