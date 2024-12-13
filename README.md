@@ -176,9 +176,9 @@ const filters = get<Filters>("filters", { parse: true });
 
 ## Next Steps
 
-- Check out the [Core Concepts](./docs/core-concepts.md) guide
-- See [Examples](./examples) for complete implementations
-- Read the [API Reference](./docs/api-reference.md) for detailed documentation
+- Check out the [Core Concepts](https://github.com/eddiedotdev/urlkit-search-params/docs/core-concepts.md) guide
+- See [Examples](https://github.com/eddiedotdev/urlkit-search-params/examples) for complete implementations
+- Read the [API Reference](https://github.com/eddiedotdev/urlkit-search-params/docs/api-reference.md) for detailed documentation
 
 ## Contributing
 

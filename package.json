@@ -1,6 +1,6 @@
 {
   "name": "@urlkit/search-params",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Type-safe URL search parameter management for JavaScript applications",
   "files": [
     "dist",
