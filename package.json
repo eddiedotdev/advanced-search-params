@@ -1,14 +1,14 @@
 {
-  "name": "@urlkit/search-params",
-  "version": "0.9.6",
+  "name": "advanced-search-params",
+  "version": "0.9.7",
   "type": "module",
   "files": [
     "dist",
     "cdn"
   ],
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/lib/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -31,6 +31,21 @@
         "types": "./dist/vanilla/index.d.ts",
         "default": "./dist/vanilla/index.cjs"
       }
+    },
+    "./parsers": {
+      "types": "./dist/lib/parsers.d.ts",
+      "import": "./dist/lib/parsers.js",
+      "require": "./dist/lib/parsers.cjs"
+    },
+    "./react/provider": {
+      "types": "./dist/react/provider.d.ts",
+      "import": "./dist/react/provider.js",
+      "require": "./dist/react/provider.cjs"
+    },
+    "./react/hooks": {
+      "types": "./dist/react/hooks/index.d.ts",
+      "import": "./dist/react/hooks/index.js",
+      "require": "./dist/react/hooks/index.cjs"
     }
   },
   "scripts": {
@@ -102,14 +117,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eddiedotdev/urlkit-search-params.git"
+    "url": "git+https://github.com/eddiedotdev/advanced-search-params.git"
   },
   "bugs": {
-    "url": "https://github.com/eddiedotdev/urlkit-search-params/issues"
+    "url": "https://github.com/eddiedotdev/advanced-search-params/issues"
   },
-  "homepage": "https://github.com/eddiedotdev/urlkit-search-params#readme",
-  "unpkg": "cdn/urlkit-search-params.iife.min.js",
-  "jsdelivr": "cdn/urlkit-search-params.iife.min.js",
+  "homepage": "https://github.com/eddiedotdev/advanced-search-params#readme",
+  "unpkg": "cdn/advanced-search-params.iife.min.js",
+  "jsdelivr": "cdn/advanced-search-params.iife.min.js",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

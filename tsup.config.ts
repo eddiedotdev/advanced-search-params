@@ -4,13 +4,23 @@ export default defineConfig({
   entry: {
     index: "src/index.ts",
     "vanilla/index": "src/vanilla/index.ts",
+    parsers: "src/lib/parsers.ts",
+    "react/provider": "src/react/provider.tsx",
+    "react/hooks/index": "src/react/hooks/use-search-params.ts",
   },
-  format: ["esm", "cjs"],
+  format: ["cjs", "esm"],
   dts: {
     resolve: true,
+    entry: {
+      index: "src/index.ts",
+      "vanilla/index": "src/vanilla/index.ts",
+      parsers: "src/lib/parsers.ts",
+      "react/provider": "src/react/provider.tsx",
+      "react/hooks/index": "src/react/hooks/use-search-params.ts",
+    },
     compilerOptions: {
-      declarationDir: "./dist",
-      declarationMap: true,
+      rootDir: "./src",
+      outDir: "./dist",
     },
   },
   splitting: false,
@@ -20,9 +30,9 @@ export default defineConfig({
   minify: true,
   external: ["react", "react-dom", "next", "react-router-dom"],
   outDir: "dist",
-  target: "es2020",
-  platform: "browser",
-  esbuildOptions(options) {
-    options.conditions = ["import", "module"];
+  outExtension({ format }) {
+    return {
+      js: format === "cjs" ? ".cjs" : ".js",
+    };
   },
 });

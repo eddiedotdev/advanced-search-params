@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/vanilla/index.ts"),
       name: "UseSearchParams",
-      fileName: () => `urlkit-search-params.iife.min.js`,
+      fileName: () => `advanced-search-params.iife.min.js`,
       formats: ["iife"],
     },
     outDir: "cdn",
