@@ -61,18 +61,18 @@ export function createSearchParamsCore(adapter: {
     if (options?.parse) {
       try {
         const parsedValues = values.map((v) => deserialize<T>(v));
-        return options.forceArray || values.length > 1
-          ? (parsedValues as T)
+        return options?.forceArray || values.length > 1
+          ? (parsedValues as T) 
           : (parsedValues[0] as T);
       } catch (error) {
-        console.warn(`Failed to parse value for key "${key}"`, error);
         return undefined;
       }
     }
 
-    return options?.forceArray || values.length > 1
-      ? (values as T)
-      : (values[0] as T);
+    const flattenedValues = values.flatMap(v => v.split(','));
+    return options?.forceArray || flattenedValues.length > 1
+      ? (flattenedValues as T) 
+      : (flattenedValues[0] as T);
   };
 
   /**
@@ -251,7 +251,7 @@ export function createSearchParamsCore(adapter: {
    * }, { serialize: true });
    */
   const setMany = (
-    params: Record<string, unknown[]>,
+    params: Record<string, string | string[]>,
     options?: ParamOptions
   ): void => {
     Object.entries(params).forEach(([key, values]) => {
@@ -269,6 +269,30 @@ export function createSearchParamsCore(adapter: {
     });
   };
 
+  const toggle = (key: string, value?: string, options?: ParamOptions): void => {
+    const currentValue = get(key, options);
+    if (currentValue) {
+      remove(key, currentValue);
+    } else {
+      add(key, value || 'true', options);
+    }
+  };
+
+  const update = (key: string, oldValue: string, newValue: string): void => {
+    const currentValues = toArray(get(key));
+    const updated = currentValues.map((value) => (value === oldValue ? newValue : value));
+    set(key, updated);
+  };
+
+  const getAll = (): Record<string, string | string[]> => {
+    const result: Record<string, string | string[]> = {};
+    searchParams.forEach((value, key) => {
+      const existing = result[key];
+      result[key] = existing ? [...toArray(existing), value] : value;
+    });
+    return result;
+  };
+
   return {
     get,
     set,
@@ -279,6 +303,9 @@ export function createSearchParamsCore(adapter: {
     clear,
     resetAllParams,
     setMany,
+    toggle,
+    update,
+    getAll,
     params: searchParams,
   };
 }

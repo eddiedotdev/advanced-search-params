@@ -5,44 +5,30 @@ import { useNextAdapter } from "../../lib/adapters/nextjs";
 import { useReactAdapter } from "../../lib/adapters/react";
 import type { UseParamsReturn } from "../../lib/types";
 import { createSearchParamsCore } from "../../lib/core/search-params";
+import { createServerAdapter } from "../../lib/adapters/server";
+import { useReactRouterAdapter } from "../../lib/adapters/react-router";
 
 /**
- * A hook for managing URL search parameters that can have multiple values.
- * Provides a simple interface for common operations while maintaining URL state.
- *
- * Key features:
- * - Handles multiple values per key (e.g., ?filter=a&filter=b)
- * - Preserves other URL parameters during operations
- * - Prevents duplicate values
- * - Type-safe operations
- * - Works with Next.js and React
- *
- * @returns An object containing methods for manipulating URL parameters
- *
+ * Hook for managing URL search parameters with support for multiple values per key.
+ * 
+ * @returns {UseParamsReturn} Object with methods: 
+ * get, set, add, remove, getWithDefault, matches, update, clear, resetAllParams, getAll, setMany
+ * 
  * @example
  * ```tsx
- * const MyComponent = () => {
+ * function FilterComponent() {
  *   const { get, set, add, remove } = useSearchParams();
- *
- *   // Set initial values
- *   useEffect(() => {
- *     set('filter', ['active', 'pending']);
- *   }, []);
- *
- *   // Get current values
- *   const currentFilters = get('filter');
- *
+ * 
+ *   // Get current filters
+ *   const filters = get('filter');
+ * 
  *   return (
  *     <div>
- *       <button onClick={() => add('filter', 'completed')}>
- *         Add Completed
- *       </button>
- *       <button onClick={() => remove('filter', 'pending')}>
- *         Remove Pending
- *       </button>
+ *       <button onClick={() => add('filter', 'active')}>Add Active</button>
+ *       <button onClick={() => remove('filter', 'active')}>Remove Active</button>
  *     </div>
  *   );
- * };
+ * }
  * ```
  */
 export function useSearchParams(): UseParamsReturn {
@@ -54,7 +40,20 @@ export function useSearchParams(): UseParamsReturn {
     );
   }
 
-  const adapter =
-    config.provider === "next" ? useNextAdapter() : useReactAdapter();
-  return createSearchParamsCore(adapter);
+  const adapterConfig = () => {
+    switch(config.provider) {
+      case "next":
+        return useNextAdapter();
+      case "react":
+        return useReactAdapter();
+      case 'react-router':
+        return useReactRouterAdapter();
+      case "server":
+        return createServerAdapter();
+      default:
+        return useReactAdapter();
+    }
+  };
+
+  return createSearchParamsCore(adapterConfig());
 }

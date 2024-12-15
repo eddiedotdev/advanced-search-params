@@ -124,7 +124,7 @@ describe("createSearchParamsCore", () => {
   describe("setMany", () => {
     it("should set multiple key-value pairs", () => {
       core.setMany({
-        key1: "value1",
+        key1: ["value1"],
         key2: ["value2", "value3"],
       });
       expect(core.get("key1")).toBe("value1");
@@ -136,7 +136,7 @@ describe("createSearchParamsCore", () => {
         key1: { test: true },
         key2: [{ test: false }],
       };
-      core.setMany(params, { serialize: true });
+      core.setMany(params as any, { serialize: true });
       expect(core.get("key1", { parse: true })).toEqual(params.key1);
       expect(core.get("key2", { parse: true, forceArray: true })).toEqual(
         params.key2
