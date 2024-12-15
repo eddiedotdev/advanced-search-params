@@ -6,6 +6,7 @@ import {
   createUrl,
 } from "../utils";
 import type { ParamOptions } from "../types";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 /**
  * Creates core search parameter functionality that can be used across different adapters.
@@ -13,271 +14,251 @@ import type { ParamOptions } from "../types";
  *
  * @param adapter - An object containing the adapter implementation
  * @param adapter.pathname - The current URL pathname
- * @param adapter.searchParams - The URLSearchParams instance
+ * @param adapter.searchParams - The URLSearchParams instance (can be readonly in Next.js)
  * @param adapter.navigate - Function to handle URL navigation
  * @returns An object containing methods for manipulating URL parameters
  */
 export function createSearchParamsCore(adapter: {
   pathname: string;
-  searchParams: URLSearchParams;
+  searchParams: URLSearchParams | ReadonlyURLSearchParams;
   navigate: (url: string) => void;
 }) {
   const { pathname, searchParams, navigate } = adapter;
 
-  function updateAndNavigate(newParams: URLSearchParams) {
-    Array.from(searchParams.keys()).forEach((key) => searchParams.delete(key));
-    Array.from(newParams.entries()).forEach(([key, value]) =>
-      searchParams.append(key, value)
-    );
+  const getMutableParams = () => {
+    return new URLSearchParams(searchParams.toString());
+  };
+
+  const updateAndNavigate = (updater: (params: URLSearchParams) => void) => {
+    const newParams = getMutableParams();
+    updater(newParams);
     navigate(createUrl(pathname, newParams));
-  }
+  };
 
-  return {
-    /**
-     * Gets values for a key from URL search parameters.
-     * Returns undefined if the key doesn't exist.
-     *
-     * @param key - The URL parameter key to get values for
-     * @param options - Optional configuration for parsing values
-     * @returns A single value if one exists, an array of values if multiple exist, or undefined if none exist
-     *
-     * @example
-     * // Simple string value
-     * get('view') // returns 'grid'
-     *
-     * // Array of values
-     * get('tags') // returns ['react', 'typescript']
-     *
-     * // Complex object with parsing
-     * get('filters', { parse: true }) // returns parsed object
-     */
-    get<T>(key: string, options?: ParamOptions): T | undefined {
-      const values = searchParams.getAll(key);
-      if (values.length === 0) return undefined;
+  /**
+   * Gets values for a key as a structured object containing both key and value(s).
+   * If there's only one value, returns it as a string. If multiple values exist,
+   * returns them as an array.
+   *
+   * @param key - The URL parameter key to get values for
+   * @param options - Optional configuration for parsing values
+   * @returns The value(s) for the key, or undefined if not found
+   *
+   * @example
+   * // URL: ?filter=active
+   * get('filter') // Returns: 'active'
+   *
+   * // URL: ?filter=active&filter=pending
+   * get('filter') // Returns: ['active', 'pending']
+   *
+   * // URL: ?data={"test":true}
+   * get('data', { parse: true }) // Returns: { test: true }
+   */
+  const get = <T>(key: string, options?: ParamOptions): T | undefined => {
+    const values = searchParams.getAll(key);
+    if (values.length === 0) return undefined;
 
-      if (options?.parse) {
-        try {
-          const parsedValues = values.map((v) => deserialize<T>(v));
-          return options.forceArray || values.length > 1
-            ? (parsedValues as T)
-            : (parsedValues[0] as T);
-        } catch (error) {
-          console.warn(`Failed to parse value for key "${key}"`, error);
-          return undefined;
-        }
+    if (options?.parse) {
+      try {
+        const parsedValues = values.map((v) => deserialize<T>(v));
+        return options.forceArray || values.length > 1
+          ? (parsedValues as T)
+          : (parsedValues[0] as T);
+      } catch (error) {
+        console.warn(`Failed to parse value for key "${key}"`, error);
+        return undefined;
       }
+    }
 
-      return options?.forceArray || values.length > 1
-        ? (values as T)
-        : (values[0] as T);
-    },
+    return options?.forceArray || values.length > 1
+      ? (values as T)
+      : (values[0] as T);
+  };
 
-    /**
-     * Gets a value with a fallback default if the key doesn't exist.
-     *
-     * @param key - The URL parameter key to get
-     * @param defaultValue - The default value to return if key doesn't exist
-     * @param options - Optional configuration for parsing values
-     * @returns The parameter value if it exists, otherwise the default value
-     *
-     * @example
-     * getWithDefault('view', 'grid')
-     * getWithDefault('filters', defaultFilters, { parse: true })
-     */
-    getWithDefault<T>(key: string, defaultValue: T, options?: ParamOptions): T {
-      return this.get<T>(key, options) ?? defaultValue;
-    },
-
-    /**
-     * Sets values for a URL parameter key, replacing any existing values.
-     *
-     * @param key - The URL parameter key to set
-     * @param values - Value or array of values to set
-     * @param options - Optional configuration for serializing values
-     *
-     * @example
-     * // Simple string value
-     * set('view', 'grid')
-     *
-     * // Array of values
-     * set('tags', ['react', 'typescript'])
-     *
-     * // Complex object with serialization
-     * set('filters', { status: 'active' }, { serialize: true })
-     */
-    set(
-      key: string,
-      values: unknown | unknown[],
-      options?: ParamOptions
-    ): void {
-      validateParams(key, values);
+  /**
+   * Sets/replaces all values for a key.
+   *
+   * @param key - The URL parameter key to set values for
+   * @param values - Single value or array of values to set
+   * @param options - Optional configuration for serializing values
+   *
+   * @example
+   * // Set single value
+   * set('view', 'grid');
+   *
+   * // Set multiple values
+   * set('filter', ['active', 'pending']);
+   *
+   * // Set serialized object
+   * set('filters', { status: 'active' }, { serialize: true });
+   */
+  const set = (key: string, values: unknown | unknown[], options?: ParamOptions): void => {
+    validateParams(key, values);
+    updateAndNavigate((params) => {
+      params.delete(key);
       const processedValues = options?.serialize
         ? toArray(values).map((v) => serialize(v))
         : toArray(values).map(String);
+      processedValues.forEach((value) => params.append(key, value));
+    });
+  };
 
-      const newParams = new URLSearchParams(searchParams);
-      newParams.delete(key);
-      processedValues.forEach((value) => newParams.append(key, value));
-      updateAndNavigate(newParams);
-    },
+  /**
+   * Adds new values to existing ones for a key, preventing duplicates.
+   * Accepts either a single value or an array of values.
+   *
+   * @param key - The URL parameter key to add values to
+   * @param values - Single value or array of values to add
+   * @param options - Optional configuration for serializing values
+   *
+   * @example
+   * // Add single value
+   * add('filter', 'completed');
+   *
+   * // Add multiple values
+   * add('filter', ['archived', 'draft']);
+   */
+  const add = (key: string, values: unknown | unknown[], options?: ParamOptions): void => {
+    validateParams(key, values);
+    const currentValues = get(key) || [];
+    const updated = [...new Set([
+      ...toArray(currentValues),
+      ...toArray(options?.serialize ? toArray(values).map(serialize) : values)
+    ])];
+    
+    updateAndNavigate((params) => {
+      params.delete(key);
+      updated.forEach((value) => params.append(key, String(value)));
+    });
+  };
 
-    /**
-     * Adds values to a URL parameter key while preserving existing values.
-     * Automatically deduplicates values.
-     *
-     * @param key - The URL parameter key to add values to
-     * @param values - Value or array of values to add
-     * @param options - Optional configuration for serializing values
-     */
-    add(
-      key: string,
-      values: unknown | unknown[],
-      options?: ParamOptions
-    ): void {
-      const currentValues = toArray(this.get(key, options) ?? []);
-      const newValues = toArray(values);
-      const uniqueValues = [...new Set([...currentValues, ...newValues])];
-      this.set(
-        key,
-        uniqueValues.length === 1 ? [uniqueValues[0]] : uniqueValues,
-        options
-      );
-    },
+  /**
+   * Removes specific values from a key's array.
+   * Accepts either a single value or an array of values to remove.
+   *
+   * @param key - The URL parameter key to remove values from
+   * @param values - Single value or array of values to remove
+   *
+   * @example
+   * // Remove single value
+   * remove('filter', 'pending');
+   *
+   * // Remove multiple values
+   * remove('filter', ['archived', 'draft']);
+   */
+  const remove = (key: string, values: unknown | unknown[]): void => {
+    const currentValues = toArray(get(key));
+    const valuesToRemove = toArray(values);
+    const updated = currentValues.filter(
+      (value) => !valuesToRemove.includes(value)
+    );
+    
+    updateAndNavigate((params) => {
+      params.delete(key);
+      updated.forEach((value) => params.append(key, String(value)));
+    });
+  };
 
-    /**
-     * Removes specific values from a URL parameter key.
-     *
-     * @param key - The URL parameter key to remove values from
-     * @param values - Value or array of values to remove
-     * @param options - Optional configuration for parsing values
-     */
-    remove(
-      key: string,
-      values: unknown | unknown[],
-      options?: ParamOptions
-    ): void {
-      const currentValues = toArray(this.get(key, options));
-      const valuesToRemove = toArray(values);
-      const updated = currentValues.filter(
-        (value) => !valuesToRemove.includes(value)
-      );
-      this.set(key, updated, options);
-    },
+  /**
+   * Checks if a URL parameter key contains a specific value.
+   * For single values, checks for exact match.
+   * For array values, checks if value exists in the array.
+   *
+   * @param key - The URL parameter key to check
+   * @param value - The value to look for
+   * @param options - Optional configuration for parsing values before comparison
+   * @returns True if the key contains the value, false otherwise
+   *
+   * @example
+   * // URL: ?filter=active
+   * matches('filter', 'active') // true
+   * matches('filter', 'pending') // false
+   *
+   * // URL: ?filter=active&filter=pending
+   * matches('filter', 'active') // true
+   * matches('filter', 'completed') // false
+   */
+  const matches = (key: string, value: unknown, options?: ParamOptions): boolean => {
+    const values = get(key, options);
+    if (!values) return false;
 
-    /**
-     * Checks if a URL parameter key contains a specific value.
-     *
-     * @param key - The URL parameter key to check
-     * @param value - The value to look for
-     * @param options - Optional configuration for parsing values
-     */
-    matches(key: string, value: unknown, options?: ParamOptions): boolean {
-      const currentValue = this.get(key, options);
-      if (!currentValue) return false;
-
-      if (options?.parse) {
-        return Array.isArray(currentValue)
-          ? currentValue.some(
-              (v) => JSON.stringify(v) === JSON.stringify(value)
-            )
-          : JSON.stringify(currentValue) === JSON.stringify(value);
+    // For parsed objects, use JSON string comparison
+    if (options?.parse) {
+      const valueStr = JSON.stringify(value);
+      if (Array.isArray(values)) {
+        return values.some(v => JSON.stringify(v) === valueStr);
       }
+      return JSON.stringify(values) === valueStr;
+    }
 
-      return Array.isArray(currentValue)
-        ? currentValue.includes(String(value))
-        : currentValue === String(value);
-    },
+    // For regular values, use direct comparison
+    if (Array.isArray(values)) {
+      return values.includes(value as never);
+    }
+    return values === value;
+  };
 
-    /**
-     * Toggles a value for a key. If it exists, removes it. If it doesn't exist, adds it.
-     *
-     * @param key - The URL parameter key to toggle
-     * @param value - The value to toggle (defaults to "true")
-     * @param options - Optional configuration for serializing values
-     */
-    toggle(key: string, value: unknown = "true", options?: ParamOptions): void {
-      if (this.matches(key, value, options)) {
-        this.remove(key, value, options);
-      } else {
-        this.add(key, value, options);
-      }
-    },
+  /**
+   * Gets a value with a default fallback if the key doesn't exist.
+   *
+   * @param key - The URL parameter key to get the value for
+   * @param defaultValue - The default value to return if the key doesn't exist
+   * @param options - Optional configuration for parsing values
+   * @returns The value if it exists, otherwise the default value
+   */
+  const getWithDefault = <T>(
+    key: string,
+    defaultValue: T,
+    options?: ParamOptions
+  ): T => {
+    const value = get<T>(key, options);
+    return value === undefined ? defaultValue : value;
+  };
 
-    /**
-     * Updates all occurrences of a value to a new value for a specific key.
-     *
-     * @param key - The URL parameter key to update
-     * @param oldValue - The value to replace
-     * @param newValue - The value to replace with
-     * @param options - Optional configuration for serializing values
-     */
-    update(
-      key: string,
-      oldValue: unknown,
-      newValue: unknown,
-      options?: ParamOptions
-    ): void {
-      const currentValues = toArray(this.get(key, options));
-      const updated = currentValues.map((value) =>
-        value === oldValue ? newValue : value
-      );
-      this.set(key, updated, options);
-    },
+  /**
+   * Clears a specific key from the URL parameters
+   */
+  const clear = (key: string): void => {
+    updateAndNavigate((params) => params.delete(key));
+  };
 
-    /**
-     * Removes all values for a specific URL parameter key.
-     *
-     * @param key - The URL parameter key to clear
-     */
-    clear(key: string): void {
-      const newParams = new URLSearchParams(searchParams);
-      newParams.delete(key);
-      navigate(createUrl(pathname, newParams));
-    },
+  /**
+   * Resets all URL search parameters
+   */
+  const resetAllParams = (): void => {
+    navigate(pathname);
+  };
 
-    /**
-     * Removes all search parameters from the URL.
-     */
-    resetAllParams(): void {
-      navigate(pathname);
-    },
+  /**
+   * Sets multiple URL parameter key/value pairs simultaneously.
+   * Preserves any existing parameters not included in the update.
+   *
+   * @param params - An object where keys are parameter names and values are arrays of values
+   * @param options - Optional configuration for serializing values
+   *
+   * @example
+   * // Set multiple parameters at once
+   * setMany({
+   *   filter: ['active', 'pending'],
+   *   sort: ['date'],
+   *   view: ['grid']
+   * });
+   *
+   * // Set serialized objects
+   * setMany({
+   *   filters: [{ status: 'active' }],
+   *   config: [{ view: 'grid' }]
+   * }, { serialize: true });
+   */
+  const setMany = (
+    params: Record<string, unknown[]>,
+    options?: ParamOptions
+  ): void => {
+    Object.entries(params).forEach(([key, values]) => {
+      validateParams(key, values);
+    });
 
-    /**
-     * Gets all URL search parameters as a structured object.
-     *
-     * @param options - Optional configuration for parsing values
-     * @returns An object mapping parameter keys to their values
-     */
-    getAll(options?: ParamOptions): Record<string, unknown> {
-      const params: Record<string, unknown> = {};
-
-      searchParams.forEach((value, key) => {
-        const existing = params[key];
-        const processedValue = options?.parse ? deserialize(value) : value;
-
-        if (existing) {
-          params[key] = Array.isArray(existing)
-            ? [...existing, processedValue]
-            : [existing, processedValue];
-        } else {
-          params[key] = processedValue;
-        }
-      });
-
-      return params;
-    },
-
-    /**
-     * Sets multiple URL parameter key/value pairs simultaneously.
-     *
-     * @param params - Object mapping parameter keys to their values
-     * @param options - Optional configuration for serializing values
-     */
-    setMany(
-      params: Record<string, unknown | unknown[]>,
-      options?: ParamOptions
-    ): void {
-      const newParams = new URLSearchParams(searchParams);
+    updateAndNavigate((newParams) => {
       Object.entries(params).forEach(([key, values]) => {
         newParams.delete(key);
         const processedValues = options?.serialize
@@ -285,10 +266,19 @@ export function createSearchParamsCore(adapter: {
           : toArray(values).map(String);
         processedValues.forEach((value) => newParams.append(key, value));
       });
-      updateAndNavigate(newParams);
-    },
+    });
+  };
 
-    /** Access to the underlying URLSearchParams object */
+  return {
+    get,
+    set,
+    add,
+    remove,
+    matches,
+    getWithDefault,
+    clear,
+    resetAllParams,
+    setMany,
     params: searchParams,
   };
 }

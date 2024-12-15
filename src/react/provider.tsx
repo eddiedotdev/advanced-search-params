@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { SearchParamsContext } from "./context";
 import type { RouterProvider } from "../lib/types";

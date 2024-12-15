@@ -8,7 +8,15 @@ describe("createSearchParamsCore", () => {
 
   beforeEach(() => {
     searchParams = new URLSearchParams();
-    navigate = vi.fn();
+    navigate = vi.fn((url: string) => {
+      const [, query] = url.split('?');
+      searchParams.forEach((_, key) => {
+        searchParams.delete(key);
+      });
+      new URLSearchParams(query).forEach((value, key) => {
+        searchParams.append(key, value);
+      });
+    });
     core = createSearchParamsCore({
       pathname: "/test",
       searchParams,

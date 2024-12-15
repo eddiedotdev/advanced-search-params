@@ -1,0 +1,10 @@
+  beforeEach(() => {
+    searchParams = new URLSearchParams();
+    navigate = vi.fn((url: string) => {
+      const [pathname, query] = url.split('?');
+      searchParams = new URLSearchParams(query);
+    });
+    core = createSearchParamsCore({
+      pathname: "/test",
+    });
+  }); 

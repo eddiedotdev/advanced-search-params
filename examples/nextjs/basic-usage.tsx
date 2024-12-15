@@ -5,13 +5,13 @@
 import { useSearchParams } from "use-search-params";
 
 export function BasicExample() {
-  const { get, set, add, remove } = useSearchParams();
+  const { get, set, add, remove, getWithDefault } = useSearchParams();
 
   // Basic string value
-  const view = get<string>("view") ?? "grid";
-
+  const view = getWithDefault("view", "grid");
+  
   // Array of values with forced array return
-  const tags = get<string[]>("tags", { forceArray: true }) ?? [];
+  const tags = getWithDefault("tags", [], { forceArray: true });
 
   // Parsed object
   const filters = get<{ status: string }>("filters", { parse: true });

@@ -5,7 +5,7 @@ import {
   deserialize,
   validateParams,
   updateSearchParams,
-} from "./utils";
+} from "../utils";
 
 describe("utils", () => {
   describe("toArray", () => {
