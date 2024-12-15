@@ -154,7 +154,7 @@ const filters = params.get("filters", { parse: true });
 ```
 
 ### SSR Support
-Coming Soon
+
 
 ## TypeScript Support
 

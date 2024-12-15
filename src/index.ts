@@ -26,6 +26,15 @@ export {
   batchUpdateParams,
 } from "./lib/utils";
 
+// Parsers
+export {
+  parseAsTimestamp,
+  parseAsIsoDateTime,
+  parseAsStringEnum,
+  type ParserOptions,
+  type Parser
+} from "./lib/parsers";
+
 // Default configuration
 export const defaultConfig: SearchParamsConfig = {
   provider: "next",
