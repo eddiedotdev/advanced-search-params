@@ -153,6 +153,9 @@ params.add("tags", ["react", "typescript"]);
 const filters = params.get("filters", { parse: true });
 ```
 
+### SSR Support
+Coming Soon
+
 ## TypeScript Support
 
 The library is written in TypeScript and includes built-in type definitions:
