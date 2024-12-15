@@ -52,10 +52,10 @@ For vanilla JavaScript projects, you can include UseSearchParams directly via CD
 
 ```html
 <!-- Using unpkg -->
-<script src="https://unpkg.com/advanced-search-params/cdn/urlkit-search-params.iife.min.js"></script>
+<script src="https://unpkg.com/advanced-search-params/cdn/advanced-search-params.iife.min.js"></script>
 
 <!-- Using jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/advanced-search-params/cdn/urlkit-search-params.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-search-params/cdn/advanced-search-params.iife.min.js"></script>
 ```
 
 ## Framework Setup
