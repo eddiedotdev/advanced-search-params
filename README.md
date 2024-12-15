@@ -1,10 +1,10 @@
-# @urlkit/search-params
+# advanced-search-params
 
-[![npm version](https://badge.fury.io/js/%40urlkit%2Fsearch-params.svg)](https://www.npmjs.com/package/@urlkit/search-params)
-[![jsDelivr hits](https://data.jsdelivr.com/v1/package/npm/@urlkit/search-params/badge)](https://www.jsdelivr.com/package/npm/@urlkit/search-params)
-[![unpkg](https://img.shields.io/badge/unpkg-available-success)](https://unpkg.com/@urlkit/search-params/)
+[![npm version](https://badge.fury.io/js/%40urlkit%2Fsearch-params.svg)](https://www.npmjs.com/package/advanced-search-params)
+[![jsDelivr hits](https://data.jsdelivr.com/v1/package/npm/advanced-search-params/badge)](https://www.jsdelivr.com/package/npm/advanced-search-params)
+[![unpkg](https://img.shields.io/badge/unpkg-available-success)](https://unpkg.com/advanced-search-params/)
 
-`@urlkit/search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
+`advanced-search-params` is a type-safe URL search parameter management library for JavaScript applications. It provides a simple, consistent API for reading and updating URL parameters while maintaining browser history and state. The library supports complex data types, arrays, and includes dedicated integrations for React, Next.js, and vanilla JavaScript projects.
 
 # Getting Started
 
@@ -14,7 +14,7 @@
 <summary>npm</summary>
 
 ```bash
-npm install @urlkit/search-params
+npm install advanced-search-params
 ```
 
 </details>
@@ -23,7 +23,7 @@ npm install @urlkit/search-params
 <summary>yarn</summary>
 
 ```bash
-yarn add @urlkit/search-params
+yarn add advanced-search-params
 ```
 
 </details>
@@ -32,7 +32,7 @@ yarn add @urlkit/search-params
 <summary>pnpm</summary>
 
 ```bash
-pnpm add @urlkit/search-params
+pnpm add advanced-search-params
 ```
 
 </details>
@@ -41,7 +41,7 @@ pnpm add @urlkit/search-params
 <summary>bun</summary>
 
 ```bash
-bun add @urlkit/search-params
+bun add advanced-search-params
 ```
 
 </details>
@@ -52,10 +52,10 @@ For vanilla JavaScript projects, you can include UseSearchParams directly via CD
 
 ```html
 <!-- Using unpkg -->
-<script src="https://unpkg.com/@urlkit/search-params/cdn/urlkit-search-params.iife.min.js"></script>
+<script src="https://unpkg.com/advanced-search-params/cdn/urlkit-search-params.iife.min.js"></script>
 
 <!-- Using jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@urlkit/search-params/cdn/urlkit-search-params.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/advanced-search-params/cdn/urlkit-search-params.iife.min.js"></script>
 ```
 
 ## Framework Setup
@@ -65,7 +65,7 @@ For vanilla JavaScript projects, you can include UseSearchParams directly via CD
 1. Wrap your app with the provider:
 
 ```tsx
-import { SearchParamsProvider } from "@urlkit/search-params";
+import { SearchParamsProvider } from "advanced-search-params";
 
 function App() {
   return (
@@ -79,7 +79,7 @@ function App() {
 2. Use the hook in your components:
 
 ```tsx
-import { useSearchParams } from "@urlkit/search-params";
+import { useSearchParams } from "advanced-search-params";
 
 function SearchableContent() {
   const { get, set, getWithDefault } = useSearchParams();
@@ -109,7 +109,7 @@ function SearchableContent() {
 ```tsx
 "use client";
 
-import { useSearchParams } from "@urlkit/search-params";
+import { useSearchParams } from "advanced-search-params";
 
 export function SearchFilters() {
   const { get, set, getWithDefault } = useSearchParams();
@@ -121,7 +121,7 @@ export function SearchFilters() {
 2. Use in your pages:
 
 ```tsx
-import { SearchParamsProvider } from "@urlkit/search-params";
+import { SearchParamsProvider } from "advanced-search-params";
 import { SearchFilters } from "./search-filters";
 
 export default function Page() {
@@ -136,7 +136,7 @@ export default function Page() {
 ### Vanilla JavaScript
 
 ```javascript
-import { createSearchParams } from "@urlkit/search-params/vanilla";
+import { createSearchParams } from "advanced-search-params/vanilla";
 
 const params = createSearchParams();
 

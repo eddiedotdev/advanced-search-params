@@ -52,7 +52,7 @@
     "build:cdn": "vite build --config vite.vanilla.config.ts",
     "build:lib": "tsup",
     "build:all": "tsx scripts/build.ts",
-    "dev:vanilla": "npm link @urlkit/search-params && tsx scripts/dev.ts",
+    "dev:vanilla": "npm link advanced-search-params && tsx scripts/dev.ts",
     "dev": "tsup --watch",
     "clean": "rimraf dist cdn",
     "lint": "eslint src --ext .ts,.tsx",

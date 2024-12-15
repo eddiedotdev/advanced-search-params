@@ -2,11 +2,11 @@
 
 "use client";
 
-import { useSearchParams } from "@urlkit/search-params";
+import { useSearchParams } from "advanced-search-params";
 import {
   parseAsIsoDateTime,
   parseAsStringEnum,
-} from "@urlkit/search-params/parsers";
+} from "advanced-search-params/parsers";
 
 const StatusEnum = ["active", "inactive", "pending"] as const;
 type Status = (typeof StatusEnum)[number];
